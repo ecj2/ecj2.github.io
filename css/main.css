@@ -1,0 +1,22 @@
+body {
+
+  background: #fff;
+  margin: 0;
+  font-family: "Courier New", monospace;
+  color: #555;
+  line-height: 20px;
+  font-size: 15px;
+}
+
+#wrap {
+
+  width: 750px;
+  margin: 20px 0 0 20px;
+}
+
+h1 {
+
+  margin: 0 0 20px 0;
+  font-weight: bold;
+  font-size: 25px;
+}
