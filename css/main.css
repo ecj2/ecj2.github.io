@@ -48,3 +48,12 @@ a:hover {
 
   text-decoration: underline;
 }
+
+@media (max-width: 400px) {
+
+  #wrap {
+
+    width: 100vw;
+    margin: 20px;
+  }
+}
