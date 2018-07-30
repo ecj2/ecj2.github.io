@@ -1,140 +1,88 @@
-Snake = new class {
+class Snake {
 
   constructor() {
 
     this.x = 0;
     this.y = BLOCK_SIZE;
 
-    this.x_speed = 1;
-    this.y_speed = 0;
+    this.velocity_x = 1;
+    this.velocity_y = 0;
 
-    this.number_of_chains = 0;
+    this.segments_x = [];
+    this.segments_y = [];
 
-    this.chains_x = [];
-    this.chains_y = [];
+    this.number_of_segments = 0;
+  }
 
-    this.color = Momo.makeColor(37, 48, 18);
+  getX() {
+
+    return this.x;
+  }
+
+  getY() {
+
+    return this.y;
   }
 
   update() {
 
-    if (Momo.isKeyPressed("up")) {
+    let i = this.number_of_segments - 1;
 
-      if (this.chains_y[0] !== this.y - BLOCK_SIZE) {
+    for (i; i >= 0; --i) {
 
-        this.setDirection(0, -1);
-      }
-    }
-    else if (Momo.isKeyPressed("down")) {
-
-      if (this.chains_y[0] !== this.y + BLOCK_SIZE) {
-
-        this.setDirection(0, 1);
-      }
-    }
-    else if (Momo.isKeyPressed("left")) {
-
-      if (this.chains_x[0] !== this.x - BLOCK_SIZE) {
-
-        this.setDirection(-1, 0);
-      }
-    }
-    else if (Momo.isKeyPressed("right")) {
-
-      if (this.chains_x[0] !== this.x + BLOCK_SIZE) {
-
-        this.setDirection(1, 0);
-      }
-    }
-
-    if (this.x === Food.getX() && this.y === Food.getY()) {
-
-      Food.changeLocation();
-
-      this.chains_x[this.number_of_chains] = this.x;
-      this.chains_y[this.number_of_chains] = this.y;
-
-      this.number_of_chains += 1;
-
-      ++score[0];
-    }
-
-    let i = 0;
-
-    for (i = this.number_of_chains - 1; i >=0; --i) {
+      // Move the snake's segments.
 
       if (i === 0) {
 
-        this.chains_x[0] = this.x;
-        this.chains_y[0] = this.y;
+        this.segments_x[0] = this.x;
+        this.segments_y[0] = this.y;
       }
       else {
 
-        this.chains_x[i] = this.chains_x[i - 1];
-        this.chains_y[i] = this.chains_y[i - 1];
+        this.segments_x[i] = this.segments_x[i - 1];
+        this.segments_y[i] = this.segments_y[i - 1];
       }
     }
 
-    this.x += this.x_speed * BLOCK_SIZE;
-    this.y += this.y_speed * BLOCK_SIZE;
-
-    if (this.x < 0) {
-
-      this.x = 400;
-    }
-    else if (this.x > 400) {
-
-      this.x = 0;
-    }
-
-    if (this.y < 0) {
-
-      this.y = 400;
-    }
-    else if (this.y > 400) {
-
-      this.y = 0;
-    }
+    // Move the snake's head.
+    this.x += this.velocity_x * BLOCK_SIZE;
+    this.y += this.velocity_y * BLOCK_SIZE;
 
     i = 0;
 
-    for (i; i < this.number_of_chains; ++i) {
+    for (i; i < this.number_of_segments; ++i) {
 
-      if (this.x === this.chains_x[i] && this.y === this.chains_y[i]) {
+      if (this.x === this.segments_x[i] && this.y === this.segments_y[i]) {
 
-        reset = true;
+        // Snake's head collided with one of its segments.
+
+        reset();
+
+        break;
       }
     }
   }
 
-  reset() {
+  addSegment() {
 
-    this.number_of_chains = 0;
+    this.segments_x[this.number_of_segments] = this.x;
+    this.segments_y[this.number_of_segments] = this.y;
 
-    this.chains_x = [];
-    this.chains_y = [];
-
-    Food.changeLocation();
-
-    this.x = 0;
-    this.y = BLOCK_SIZE;
-
-    this.x_speed = 1;
-    this.y_speed = 0;
+    ++this.number_of_segments;
   }
 
   render() {
 
     let i = 0;
 
-    for (i; i < this.number_of_chains; ++i) {
+    for (i; i < this.number_of_segments; ++i) {
 
-      // Draw each of the snake's chains.
+      // Draw the snake's segments.
       Momo.drawFilledCircle(
 
-        this.chains_x[i] + HALF_BLOCK,
+        this.segments_x[i] + HALF_BLOCK,
 
-        this.chains_y[i] + HALF_BLOCK,
+        this.segments_y[i] + HALF_BLOCK,
 
         HALF_BLOCK,
 
@@ -146,9 +94,68 @@ Snake = new class {
     Momo.drawFilledCircle(this.x + HALF_BLOCK, this.y + HALF_BLOCK, HALF_BLOCK, Momo.makeColor(37, 48, 18));
   }
 
-  setDirection(x_speed, y_speed) {
+  moveUp() {
 
-    this.x_speed = x_speed;
-    this.y_speed = y_speed;
+    if (this.segments_y[0] !== this.y - BLOCK_SIZE) {
+
+      this.velocity_x = 0;
+      this.velocity_y = -1;
+    }
+  }
+
+  moveDown() {
+
+    if (this.segments_y[0] !== this.y + BLOCK_SIZE) {
+
+      this.velocity_x = 0;
+      this.velocity_y = 1;
+    }
+  }
+
+  moveLeft() {
+
+    if (this.segments_x[0] !== this.x - BLOCK_SIZE) {
+
+      this.velocity_x = -1;
+      this.velocity_y = 0;
+    }
+  }
+
+  moveRight() {
+
+    if (this.segments_x[0] !== this.x + BLOCK_SIZE) {
+
+      this.velocity_x = 1;
+      this.velocity_y = 0;
+    }
+  }
+
+  reset() {
+
+    this.x = 0;
+    this.y = BLOCK_SIZE;
+
+    this.velocity_x = 1;
+    this.velocity_y = 0;
+
+    this.segments_x = [];
+    this.segments_y = [];
+
+    this.number_of_segments = 0;
+  }
+
+  getSegmentSize() {
+
+    return this.number_of_segments;
+  }
+
+  getSegmentsX() {
+
+    return this.segments_x;
+  }
+
+  getSegmentsY() {
+
+    return this.segments_y;
   }
 }

@@ -1,4 +1,4 @@
-Food = new class {
+class Food {
 
   constructor() {
 
@@ -6,9 +6,14 @@ Food = new class {
     this.y = 0;
   }
 
-  update() {
+  getX() {
 
-    //
+    return this.x;
+  }
+
+  getY() {
+
+    return this.y;
   }
 
   render() {
@@ -27,47 +32,17 @@ Food = new class {
 
   changeLocation() {
 
-    if (Snake.number_of_chains === 0) {
+    let grid_size = 400 / BLOCK_SIZE;
 
-      let w = 400 / BLOCK_SIZE;
-      let h = 400 / BLOCK_SIZE;
+    let random_x = (Math.random() * 1000) | 0;
+    let random_y = (Math.random() * 1000) | 0;
 
-      let random_x = ((Math.random() * 1000) | 0);
-      let random_y = ((Math.random() * 1000) | 0);
-
-      this.x = (random_x % w) * BLOCK_SIZE;
-      this.y = (random_y % h) * BLOCK_SIZE;
-
-      return;
-    }
-
-    let i = 0;
-
-    for (i; i < Snake.number_of_chains; ++i) {
-
-      if ((this.x === Snake.chains_x[i] && this.y === Snake.chains_y[i]) || (this.x === Snake.x && this.y === Snake.y)) {
-
-        // Food spawned on snake. Try different location.
-
-        let w = 400 / BLOCK_SIZE;
-        let h = 400 / BLOCK_SIZE;
-
-        let random_x = ((Math.random() * 1000) | 0);
-        let random_y = ((Math.random() * 1000) | 0);
-
-        this.x = (random_x % w) * BLOCK_SIZE;
-        this.y = (random_y % h) * BLOCK_SIZE;
-      }
-    }
+    this.x = random_x % grid_size * BLOCK_SIZE;
+    this.y = random_y % grid_size * BLOCK_SIZE;
   }
 
-  getX() {
+  reset() {
 
-    return this.x;
-  }
-
-  getY() {
-
-    return this.y;
+    this.changeLocation();
   }
 }
