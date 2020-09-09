@@ -65,6 +65,30 @@ canvas {
   margin: auto;
 }
 
+#button {
+
+  border: 1px solid #2e2e2e;
+  padding: 15px;
+  display: inline-block;
+}
+
+#button:hover {
+
+  background: #2e2e2e;
+  cursor: pointer;
+  color: #fcfcfc;
+}
+
+#results {
+
+  outline: none;
+  border: 1px solid #2e2e2e;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  display: none;
+}
+
  @media (max-width: 750px) {
 
   #wrap {
