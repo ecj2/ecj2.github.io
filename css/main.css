@@ -1,11 +1,10 @@
 body {
 
-  font-family: "Droid Sans", serif !important;
+  font-family: "Droid Sans", sans-serif;
   font-size: 27px;
   color: #0009;
   line-height: 52.5px;
   margin: 0;
-  /* zoom: 1.5; */
   text-align: left;
   background: #fff;
 }
