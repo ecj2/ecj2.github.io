@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Yukidaruma</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Droid+Sans&display=swap">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="uploads/png/favorite.png">
+    <script src="uploads/games/yukidaruma/js/vendor/poyo.js"></script>
+    <script src="uploads/games/yukidaruma/js/global.js"></script>
+    <script src="uploads/games/yukidaruma/js/snowball.js"></script>
+    <script src="uploads/games/yukidaruma/js/player.js"></script>
+    <script src="uploads/games/yukidaruma/js/platform.js"></script>
+    <script src="uploads/games/yukidaruma/js/heart.js"></script>
+    <script src="uploads/games/yukidaruma/js/main.js"></script>
+    <script>
+      function start() {
+
+        // Show canvas.
+        document.getElementById("poyo").style = "display: inherit";
+
+        // Hide toggle link.
+        document.getElementById("toggle").style = "display: none";
+
+        // Show fullscreen link.
+        document.getElementById("fullscreen").style = "display: inherit";
+
+        // Start the game.
+        main();
+      }
+    </script>
+  </head>
+  <body>
+    <div id="wrap">
+      <h1><a href="https://thardus.xyz">Thardus</a> &raquo; Yukidaruma</h1>
+      This was my <a href="https://www.allegro.cc/forums/thread/616642">KrampusHack 2020</a> entry.
+
+      <div id="toggle">
+        <br>Click <a href="#" onclick="start()">here</a> to load the game.
+      </div>
+      <canvas id="poyo" style="display: none">
+        Your browser is too old to play this game!
+      </canvas>
+      <a class="fullscreen" id="fullscreen" style="display: none" href="javascript:document.getElementById('poyo').requestFullscreen()">Fullscreen</a>
+    </div>
+  </body>
+</html>
