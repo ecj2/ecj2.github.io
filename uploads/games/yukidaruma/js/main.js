@@ -21,6 +21,13 @@ async function main() {
 
 async function loadResources() {
 
+  sample_background = await Poyo.loadSample("uploads/games/yukidaruma/data/mp3/background.mp3");
+
+  if (!sample_background) {
+
+    Poyo.displayError("failed to load background.mp3");
+  }
+
   bitmap_atlas = await Poyo.loadBitmap("uploads/games/yukidaruma/data/png/atlas.png");
 
   if (!bitmap_atlas) {
@@ -92,13 +99,6 @@ async function loadResources() {
   if (!sample_special) {
 
     Poyo.displayError("failed to load special.mp3");
-  }
-
-  sample_background = await Poyo.loadSample("uploads/games/yukidaruma/data/mp3/background.mp3");
-
-  if (!sample_background) {
-
-    Poyo.displayError("failed to load background.mp3");
   }
 }
 
