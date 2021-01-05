@@ -1187,6 +1187,8 @@ let Poyo = new class {
 
     element.src = file_name;
 
+    element.preload = "auto";
+
     let reject_function = undefined;
     let resolve_function = undefined;
 
