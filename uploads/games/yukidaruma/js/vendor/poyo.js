@@ -793,11 +793,7 @@ let Poyo = new class {
       break;
     }
 
-    if (event.which == 38 || event.which == 40 || event.which == 37 || event.which == 39) {
-
-      // Prevent arrow keys from scrolling page.
-      event.preventDefault();
-    }
+    event.preventDefault();
   }
 
   isKeyUp(key) {
