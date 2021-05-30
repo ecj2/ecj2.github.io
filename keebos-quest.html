@@ -9,17 +9,48 @@
     <link rel="icon" href="uploads/png/favorite.png">
     <script src="uploads/games/keebos-quest/js/allegro5.js"></script>
     <script src="uploads/games/keebos-quest/js/game.js"></script>
+    <script>
+      function start() {
+
+        // Show canvas.
+        document.getElementById("display").style = "display: inherit";
+
+        // Hide toggle link.
+        document.getElementById("toggle").style = "display: none";
+
+        // Show links.
+        document.getElementById("grid").style = "display: flex; width: 768px";
+
+        // Start the game.
+        main();
+
+        // Force change of aspect ratio to scale nicely to 16:9.
+        _canvas.h = 432;
+        _canvas.canvas.height = 432;
+      }
+    </script>
   </head>
   <body>
     <div id="wrap">
       <h1><a href="https://thardus.xyz">Thardus</a> &raquo; Keebo's Quest</h1>
-      This was my submission for <a href="https://tins.amarillion.org/easter17/log/">EasterHack 2017</a>. I placed first for my accompanying <a href="https://tins.amarillion.org/easter17/log/4129/?page=2">development logs</a> and <a href="https://www.youtube.com/watch?v=JvyjWoALu9k">time-lapse video</a>.
+      This was created for <a href="https://tins.amarillion.org/easter17/log/">EasterHack 2017</a>.
+
+      <div id="toggle">
+        <br>Click <a href="#" onclick="start()">here</a> to load the game.
+      </div>
 
       <canvas id="display">
         Your browser is outdated and can not play this game.
       </canvas>
 
-      <a class="fullscreen" href="javascript:document.getElementById('display').requestFullscreen()">Fullscreen</a>
+      <div id="grid" style="display: none; width: 768px;">
+        <div style="flex: 1;">
+          <a href="javascript:document.getElementById('display').requestFullscreen()">Fullscreen</a>
+        </div>
+        <div style="flex: 2; text-align: right">
+          <a href="https://tins.amarillion.org/easter17/entries/">Source</a>
+        </div>
+      </div>
     </div>
   </body>
 </html>

@@ -15,17 +15,48 @@
     <script src="uploads/games/mori/js/spirit.js"></script>
     <script src="uploads/games/mori/js/main.js"></script>
     <script src="uploads/games/mori/js/map.js"></script>
+    <script>
+      function start() {
+
+        // Show canvas.
+        document.getElementById("game").style = "display: inherit";
+
+        // Hide toggle link.
+        document.getElementById("toggle").style = "display: none";
+
+        // Show links.
+        document.getElementById("grid").style = "display: flex; width: 768px";
+
+        // Start the game.
+        main();
+
+        // Force change of aspect ratio to scale nicely to 16:9.
+        Momo.main_canvas.height = 432;
+        Momo.main_canvas.canvas.height = 432;
+      }
+    </script>
   </head>
   <body>
     <div id="wrap">
       <h1><a href="https://thardus.xyz">Thardus</a> &raquo; Mori</h1>
-      This was my <a href="https://tins.amarillion.org/2016/">TINS 2016</a> submission. It placed first in art and second overall. It was my first time participating in a game jam, and I was quite surprised by the results.
+      This was created for <a href="https://tins.amarillion.org/2016/">TINS 2016</a>.
+
+      <div id="toggle">
+        <br>Click <a href="#" onclick="start()">here</a> to load the game.
+      </div>
 
       <canvas id="game">
         Your browser is outdated and can not play this game.
       </canvas>
 
-      <a class="fullscreen" href="javascript:document.getElementById('game').requestFullscreen()">Fullscreen</a>
+      <div id="grid" style="display: none; width: 768px;">
+        <div style="flex: 1;">
+          <a href="javascript:document.getElementById('game').requestFullscreen()">Fullscreen</a>
+        </div>
+        <div style="flex: 2; text-align: right">
+          <a href="https://github.com/ecj2/mori">Source</a>
+        </div>
+      </div>
     </div>
   </body>
 </html>

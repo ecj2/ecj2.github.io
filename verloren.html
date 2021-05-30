@@ -15,17 +15,44 @@
     <script src="uploads/games/verloren/js/enemy.js"></script>
     <script src="uploads/games/verloren/js/ship.js"></script>
     <script src="uploads/games/verloren/js/main.js"></script>
+    <script>
+      function start() {
+
+        // Show canvas.
+        document.getElementById("game").style = "display: inherit";
+
+        // Hide toggle link.
+        document.getElementById("toggle").style = "display: none";
+
+        // Show links.
+        document.getElementById("grid").style = "display: flex; width: 768px";
+
+        // Start the game.
+        main();
+      }
+    </script>
   </head>
   <body>
     <div id="wrap">
       <h1><a href="https://thardus.xyz">Thardus</a> &raquo; Verloren</h1>
-      This was my <a href="https://2017.js13kgames.com/">js13kgames.com 2017</a> submission. It was tough keeping it under 13 kilobytes, but I'm happy with how it turned out.
+      This was created for <a href="https://2017.js13kgames.com/">js13kgames.com 2017</a>.
+
+      <div id="toggle">
+        <br>Click <a href="#" onclick="start()">here</a> to load the game.
+      </div>
 
       <canvas id="game">
         Your browser is outdated and can not play this game.
       </canvas>
 
-      <a class="fullscreen" href="javascript:document.getElementById('game').requestFullscreen()">Fullscreen</a>
+      <div id="grid" style="display: none; width: 768px;">
+        <div style="flex: 1;">
+          <a href="javascript:document.getElementById('game').requestFullscreen()">Fullscreen</a>
+        </div>
+        <div style="flex: 2; text-align: right">
+          <a href="https://github.com/ecj2/verloren">Source</a>
+        </div>
+      </div>
     </div>
   </body>
 </html>

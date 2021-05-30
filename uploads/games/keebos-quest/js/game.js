@@ -2095,5 +2095,3 @@ function main() {
     }
   );
 }
-
-al_run_main();

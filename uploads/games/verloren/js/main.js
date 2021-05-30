@@ -838,5 +838,3 @@ function displayError(message) {
 
   throw new Error("Error: " + message + "!");
 }
-
-Momo.setEntryPoint(main);

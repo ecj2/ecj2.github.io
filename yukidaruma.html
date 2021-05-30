@@ -23,8 +23,8 @@
         // Hide toggle link.
         document.getElementById("toggle").style = "display: none";
 
-        // Show fullscreen link.
-        document.getElementById("fullscreen").style = "display: inherit";
+        // Show links.
+        document.getElementById("grid").style = "display: flex; width: 768px";
 
         // Start the game.
         main();
@@ -34,15 +34,24 @@
   <body>
     <div id="wrap">
       <h1><a href="https://thardus.xyz">Thardus</a> &raquo; Yukidaruma</h1>
-      This was my <a href="https://tins.amarillion.org/krampu20/rules/">KrampusHack 2020</a> entry.
+      A Bird & Beans clone created for <a href="https://tins.amarillion.org/krampu20/rules/">KrampusHack 2020</a>.
 
       <div id="toggle">
         <br>Click <a href="#" onclick="start()">here</a> to load the game.
       </div>
+
       <canvas id="poyo" style="display: none">
         Your browser is too old to play this game!
       </canvas>
-      <a class="fullscreen" id="fullscreen" style="display: none" href="javascript:document.getElementById('poyo').requestFullscreen()">Fullscreen</a>
+
+      <div id="grid" style="display: none; width: 768px;">
+        <div style="flex: 1;">
+          <a href="javascript:document.getElementById('poyo').requestFullscreen()">Fullscreen</a>
+        </div>
+        <div style="flex: 2; text-align: right">
+          <a href="https://github.com/ecj2/yukidaruma">Source</a>
+        </div>
+      </div>
     </div>
   </body>
 </html>

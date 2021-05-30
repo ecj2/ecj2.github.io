@@ -154,5 +154,3 @@ function loadResources() {
     }
   }
 }
-
-Momo.setEntryPoint(main);

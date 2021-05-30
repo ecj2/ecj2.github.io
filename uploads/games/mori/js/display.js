@@ -33,6 +33,13 @@ Display = new class {
 
   render() {
 
+    let context = Momo.getCanvasContext();
+
+    context.save();
+
+    // Compensate for shrinking canvas to fit into 16:9 aspect ratio.
+    context.translate(0, -16);
+
     for (let i = 0; i < 12; ++i) {
 
       // Display item bar background.
@@ -231,6 +238,8 @@ Display = new class {
         item_count
       );
     }
+
+    context.restore();
 
     if (this.show_text) {
 

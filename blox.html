@@ -14,17 +14,48 @@
     <script src="uploads/games/blox/js/block.js"></script>
     <script src="uploads/games/blox/js/player.js"></script>
     <script src="uploads/games/blox/js/main.js"></script>
+    <script>
+      function start() {
+
+        // Show canvas.
+        document.getElementById("game").style = "display: inherit";
+
+        // Hide toggle link.
+        document.getElementById("toggle").style = "display: none";
+
+        // Show links.
+        document.getElementById("grid").style = "display: flex; width: 768px";
+
+        // Start the game.
+        main();
+
+        // Force change of aspect ratio to scale nicely to 16:9.
+        Momo.main_canvas.height = 432;
+        Momo.main_canvas.canvas.height = 432;
+      }
+    </script>
   </head>
   <body>
     <div id="wrap">
       <h1><a href="https://thardus.xyz">Thardus</a> &raquo; Blox</h1>
-      This was my naive attempt at creating a <a href="https://en.wikipedia.org/wiki/Sokoban">Sokoban</a> clone in mid 2017. You can move with the arrow keys, undo mistakes with "Z", and reset the level with "R".
+      A block-pushing game I made just for fun in 2017.
+
+      <div id="toggle">
+        <br>Click <a href="#" onclick="start()">here</a> to load the game.
+      </div>
 
       <canvas id="game">
         Your browser is outdated and can not play this game.
       </canvas>
 
-      <a class="fullscreen" href="javascript:document.getElementById('game').requestFullscreen()">Fullscreen</a>
+      <div id="grid" style="display: none; width: 768px;">
+        <div style="flex: 1;">
+          <a href="javascript:document.getElementById('game').requestFullscreen()">Fullscreen</a>
+        </div>
+        <div style="flex: 2; text-align: right">
+          <a href="https://github.com/ecj2/blox">Source</a>
+        </div>
+      </div>
     </div>
   </body>
 </html>

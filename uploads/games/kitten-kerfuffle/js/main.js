@@ -973,5 +973,3 @@ function loadResources() {
 
   return result;
 }
-
-Momo.setEntryPoint(main);

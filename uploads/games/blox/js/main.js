@@ -1129,5 +1129,3 @@ function importData(data) {
   save();
   restore();
 }
-
-Momo.setEntryPoint(main);
