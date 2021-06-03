@@ -86,18 +86,12 @@ Player = new class {
     if (this.x < 0) {
 
       // Don't allow player to exit left of view.
-
       this.x = 0;
-
-      this.vel_y = 0;
     }
     else if (this.x + TILE_SIZE > CANVAS_W) {
 
       // Don't allow player to exit right of view.
-
       this.x = CANVAS_W - TILE_SIZE;
-
-      this.vel_y = 0;
     }
 
     Platforms.forEach(
@@ -110,7 +104,9 @@ Player = new class {
 
             // Player tried to cross a broken platform.
 
-            this.vel_y = 0;
+            let start_x = this.x;
+
+            let offset = 0;
 
             switch (this.facing_direction) {
 
@@ -120,6 +116,8 @@ Player = new class {
 
                   ++this.x;
                 }
+
+                offset = -1;
               break;
 
               case FACING_RIGHT:
@@ -128,7 +126,18 @@ Player = new class {
 
                   --this.x;
                 }
+
+                offset = 1;
               break;
+            }
+
+            // How far did the collision push the player?
+            let distance_pushed = Math.abs(this.x - start_x);
+
+            if (distance_pushed > TILE_SIZE) {
+
+              // Player was pushed too far; snap him back to original tile.
+              this.x = (((start_x + offset) / TILE_SIZE) | 0) * TILE_SIZE;
             }
           }
         }
@@ -137,7 +146,7 @@ Player = new class {
 
     if (this.x < 0 || this.x + TILE_SIZE > CANVAS_W) {
 
-      // If the buggy collision sends the player out of view, kill him.
+      // If the buggy collision sends the player out of view, kill him (this *might* not be possible anymore).
       this.defeat();
     }
   }
