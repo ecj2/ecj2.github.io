@@ -1,3 +1,5 @@
+"use strict";
+
 async function main() {
 
   if (!Poyo.initialize(CANVAS_W, CANVAS_H)) {
@@ -19,87 +21,138 @@ async function main() {
   Poyo.createGameLoop(loop);
 }
 
+function setStatus(resource, is_error = false) {
+
+  let status = document.getElementById("status");
+
+  if (is_error) {
+
+    let message = "failed to load " + resource + "!";
+
+    status.innerHTML = "Error: " + message;
+
+    throw new Error(message);
+  }
+  else {
+
+    status.innerHTML = "Loading " + resource + "...";
+  }
+}
+
 async function loadResources() {
 
-  sample_background = await Poyo.loadSample("uploads/games/yukidaruma/data/mp3/background.mp3");
+  let path = "uploads/games/yukidaruma/data/";
 
-  if (!sample_background) {
+  setStatus("atlas.png");
 
-    Poyo.displayError("failed to load background.mp3");
-  }
-
-  bitmap_atlas = await Poyo.loadBitmap("uploads/games/yukidaruma/data/png/atlas.png");
+  bitmap_atlas = await Poyo.loadBitmap(path + "png/atlas.png");
 
   if (!bitmap_atlas) {
 
-    Poyo.displayError("failed to load atlas.png");
+    setStatus("atlas.png", true);
   }
 
-  bitmap_text = await Poyo.loadBitmap("uploads/games/yukidaruma/data/png/text.png");
+  setStatus("text.png");
+
+  bitmap_text = await Poyo.loadBitmap(path + "png/text.png");
 
   if (!bitmap_text) {
 
-    Poyo.displayError("failed to load text.png");
+    setStatus("text.png", true);
   }
 
-  bitmap_background = await Poyo.loadBitmap("uploads/games/yukidaruma/data/png/background.png");
+  setStatus("background.png");
+
+  bitmap_background = await Poyo.loadBitmap(path + "png/background.png");
 
   if (!bitmap_background) {
 
-    Poyo.displayError("failed to load background.png");
+    setStatus("background.png", true);
   }
 
-  bitmap_score = await Poyo.loadBitmap("uploads/games/yukidaruma/data/png/score.png");
+  setStatus("score.png");
+
+  bitmap_score = await Poyo.loadBitmap(path + "png/score.png");
 
   if (!bitmap_score) {
 
-    Poyo.displayError("failed to load score.png");
+    setStatus("score.png", true);
   }
 
   // Use linear texture filtering on lights (hopefully reduces some banding).
   Poyo.setNewBitmapFlags(Poyo.MIN_LINEAR, Poyo.MAG_LINEAR);
 
-  bitmap_light = await Poyo.loadBitmap("uploads/games/yukidaruma/data/png/light.png");
+  setStatus("light.png");
+
+  bitmap_light = await Poyo.loadBitmap(path + "png/light.png");
 
   if (!bitmap_light) {
 
-    Poyo.displayError("failed to load light.png");
+    setStatus("light.png", true);
   }
 
-  sample_pop = await Poyo.loadSample("uploads/games/yukidaruma/data/mp3/pop.mp3");
+  setStatus("pop.mp3");
+
+  sample_pop = await Poyo.loadSample(path + "mp3/pop.mp3");
 
   if (!sample_pop) {
 
-    Poyo.displayError("failed to load pop.mp3");
+    setStatus("pop.mp3", true);
   }
 
-  sample_whoosh = await Poyo.loadSample("uploads/games/yukidaruma/data/mp3/whoosh.mp3");
+  setStatus("whoosh.mp3");
+
+  sample_whoosh = await Poyo.loadSample(path + "mp3/whoosh.mp3");
 
   if (!sample_whoosh) {
 
-    Poyo.displayError("failed to load whoosh.mp3");
+    setStatus("whoosh.mp3", true);
   }
 
-  sample_slide = await Poyo.loadSample("uploads/games/yukidaruma/data/mp3/slide.mp3");
+  setStatus("slide.mp3");
+
+  sample_slide = await Poyo.loadSample(path + "mp3/slide.mp3");
 
   if (!sample_slide) {
 
-    Poyo.displayError("failed to load slide.mp3");
+    setStatus("slide.mp3", true);
   }
 
-  sample_defeat = await Poyo.loadSample("uploads/games/yukidaruma/data/mp3/defeat.mp3");
+  setStatus("defeat.mp3");
+
+  sample_defeat = await Poyo.loadSample(path + "mp3/defeat.mp3");
 
   if (!sample_defeat) {
 
-    Poyo.displayError("failed to load defeat.mp3");
+    setStatus("defeat.mp3", true);
   }
 
-  sample_special = await Poyo.loadSample("uploads/games/yukidaruma/data/mp3/special.mp3");
+  setStatus("special.mp3");
+
+  sample_special = await Poyo.loadSample(path + "mp3/special.mp3");
 
   if (!sample_special) {
 
-    Poyo.displayError("failed to load special.mp3");
+    setStatus("special.mp3", true);
   }
+
+  setStatus("background.mp3");
+
+  sample_background = await Poyo.loadSample(path + "mp3/background.mp3");
+
+  if (!sample_background) {
+
+    setStatus("background.mp3", true);
+  }
+
+  // Hide the status text.
+  document.getElementById("status").style = "display: none";
+
+  // Show fullscreen and source links.
+  document.getElementById("grid").style = "display: flex; width: 768px;";
+
+  // Show canvas.
+  document.getElementById("poyo").style = "display: inherit";
 }
 
 function loop() {
@@ -290,7 +343,7 @@ function updateHearts() {
     }
 
     // Increase background music as the game progresses. Cap to 4x to appease Firefox.
-    Poyo.adjustSample(0, master_gain - 0.5, Math.min(4, music_speed), true);
+    Poyo.adjustSample(getReference(BACKGROUND), master_gain - 0.5, Math.min(4, music_speed), 0, true);
   }
 }
 
@@ -346,14 +399,14 @@ function render() {
 
       renderLights();
 
-      Poyo.batchDrawing(true);
+      Poyo.useInstancing(true);
 
       renderHearts();
 
       Snowball.render();
       Player.render();
 
-      Poyo.batchDrawing(false);
+      Poyo.useInstancing(false);
 
     break;
   }
@@ -363,7 +416,7 @@ function render() {
 
 function renderBackground() {
 
-  Poyo.batchDrawing(true);
+  Poyo.useInstancing(true);
 
   // Draw background.
   Poyo.drawClippedBitmap(bitmap_background, 0, animation_frame * CANVAS_H, CANVAS_W, CANVAS_H, 0, background_y + CANVAS_H / 2);
@@ -371,12 +424,12 @@ function renderBackground() {
   // Draw birds.
   Poyo.drawClippedBitmap(bitmap_background, TILE_SIZE * 12, animation_frame * TILE_SIZE, TILE_SIZE, TILE_SIZE, birds_x, birds_y + background_y + CANVAS_H / 2);
 
-  Poyo.batchDrawing(false);
+  Poyo.useInstancing(false);
 }
 
 function renderPlatforms() {
 
-  Poyo.batchDrawing(true);
+  Poyo.useInstancing(true);
 
   Platforms.forEach(
 
@@ -386,7 +439,7 @@ function renderPlatforms() {
     }
   );
 
-  Poyo.batchDrawing(false);
+  Poyo.useInstancing(false);
 }
 
 function renderHearts() {
@@ -409,7 +462,7 @@ function renderLights() {
 
   let light_size = Poyo.getBitmapWidth(bitmap_light);
 
-  Poyo.batchDrawing(true);
+  Poyo.useInstancing(true);
 
   Hearts.forEach(
 
@@ -430,7 +483,7 @@ function renderLights() {
     }
   );
 
-  Poyo.batchDrawing(false);
+  Poyo.useInstancing(false);
 
   // Return to Poyo's default blend mode.
   WebGL2.blendFunc(WebGL2.SRC_ALPHA, WebGL2.ONE_MINUS_SRC_ALPHA);
@@ -464,7 +517,7 @@ function reset() {
   goals_met = 0;
 
   // Play background music.
-  Poyo.playSample(sample_background, master_gain - 0.5, 1, true, 0);
+  Poyo.playSample(sample_background, master_gain - 0.5, 1, 0, true, getReference(BACKGROUND));
 }
 
 function renderText() {
@@ -481,7 +534,7 @@ function renderText() {
     }
   }
 
-  Poyo.batchDrawing(true);
+  Poyo.useInstancing(true);
 
   texts.forEach(
 
@@ -545,9 +598,9 @@ function renderText() {
     }
   );
 
-  Poyo.batchDrawing(false);
+  Poyo.useInstancing(false);
 
-  Poyo.batchDrawing(true);
+  Poyo.useInstancing(true);
 
   let score_string = score.toString();
 
@@ -611,5 +664,5 @@ function renderText() {
     Poyo.drawClippedBitmap(bitmap_score, 0, TILE_SIZE * 2 + animation_frame * TILE_SIZE, bitmap_width, TILE_SIZE, x, defeat_y);
   }
 
-  Poyo.batchDrawing(false);
+  Poyo.useInstancing(false);
 }

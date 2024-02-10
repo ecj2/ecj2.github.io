@@ -17,14 +17,11 @@
     <script>
       function start() {
 
-        // Show canvas.
-        document.getElementById("poyo").style = "display: inherit";
-
         // Hide toggle link.
         document.getElementById("toggle").style = "display: none";
 
-        // Show links.
-        document.getElementById("grid").style = "display: flex; width: 768px";
+        // Show status text.
+        document.getElementById("status").style = "display: inherit";
 
         // Start the game.
         main();
@@ -39,6 +36,8 @@
       <div id="toggle">
         <br>Click <a href="#" onclick="start()">here</a> to load the game.
       </div>
+
+      <div id="status" style="display: none"></div>
 
       <canvas id="poyo" style="display: none">
         Your browser is too old to play this game!
