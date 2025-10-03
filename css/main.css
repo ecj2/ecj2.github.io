@@ -22,16 +22,37 @@ h1 {
   padding-bottom: 34px;
 }
 
-h1 a {
+nav a, h1 a {
 
   color: inherit;
   text-decoration: none;
 }
 
-h1 a:hover {
+nav a:hover, h1 a:hover {
 
   color: var(--link_color);
   text-decoration: none;
+}
+
+nav {
+
+  float: right;
+  text-align: right;
+  margin-top: -99px;
+}
+
+nav ul {
+
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+nav ul li {
+
+  display: inline;
+  padding-left: 10px;
 }
 
 h2 {
