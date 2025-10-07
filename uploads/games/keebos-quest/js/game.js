@@ -1709,7 +1709,7 @@ function render() {
 
           0,
 
-          al_get_display_height() * frame,
+          al_get_display_height() * frame + 16 * frame, // Hack. Fixes changing aspect ratio forcefully.
 
           al_get_display_width(),
 
