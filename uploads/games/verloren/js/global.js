@@ -18,7 +18,7 @@ let ftl_engine_sub = 0.0;
 let state = 0;
 
 let screen_width = 768;
-let screen_height = 448;
+let screen_height = 432;
 
 // States.
 const INTRO = 0;
