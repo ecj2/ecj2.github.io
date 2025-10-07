@@ -149,7 +149,7 @@ async function loadResources() {
   document.getElementById("status").style = "display: none";
 
   // Show fullscreen and source links.
-  document.getElementById("grid").style = "display: flex; width: 768px;";
+  document.getElementById("sections").style = "display: flex";
 
   // Show canvas.
   document.getElementById("poyo").style = "display: inherit";

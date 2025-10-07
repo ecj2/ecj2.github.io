@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Kitten Kerfuffle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap">
+    <title>Kitten Kerfuffle</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap">
     <link rel="stylesheet" href="css/main.css">
     <link rel="icon" href="uploads/png/favorite.png">
     <script src="https://cdn.jsdelivr.net/gh/ecj2/momo@ec70480f95447310af0944605c4179488f389c45/momo.js"></script>
@@ -24,7 +24,7 @@
         document.getElementById("toggle").style = "display: none";
 
         // Show links.
-        document.getElementById("grid").style = "display: flex; width: 768px";
+        document.getElementById("sections").style = "display: flex";
 
         // Start the game.
         main();
@@ -36,17 +36,8 @@
     </script>
   </head>
   <body>
-    <div id="wrap">
-      <h1><a href="https://thardus.xyz">Thardus</a></h1>
-      <nav>
-        <ul>
-          <li><a href="https://thardus.xyz">Home</a></li>
-          <li><a href="games">Games</a></li>
-          <li><a href="projects">Projects</a></li>
-          <li><a href="https://github.com/ecj2">GitHub</a></li>
-        </ul>
-      </nav>
-      <h2>Kitten Kerfuffle</h2>
+    <main>
+      <h1><a href="https://thardus.xyz">Thardus</a> &raquo; Kitten Kerfuffle</h1>
       This was created for <a href="https://www.allegro.cc/forums/thread/616642">KrampusHack 2016</a>.
 
       <div id="toggle">
@@ -57,14 +48,10 @@
         Your browser is outdated and can not play this game.
       </canvas>
 
-      <div id="grid" style="display: none; width: 768px;">
-        <div style="flex: 1;">
-          <a href="javascript:document.getElementById('game').requestFullscreen()">Fullscreen</a>
-        </div>
-        <div style="flex: 2; text-align: right">
-          <a href="https://github.com/ecj2/kitten-kerfuffle">Source</a>
-        </div>
+      <div id="sections">
+        <div class="section"><a href="javascript:document.getElementById('game').requestFullscreen()">Fullscreen</a></div>
+        <div class="section"><a href="https://github.com/ecj2/kitten-kerfuffle">Source</a></div>
       </div>
-    </div>
+    </main>
   </body>
 </html>

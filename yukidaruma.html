@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Yukidaruma</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap">
+    <title>Yukidaruma</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap">
     <link rel="stylesheet" href="css/main.css">
     <link rel="icon" href="uploads/png/favorite.png">
     <script src="uploads/games/yukidaruma/js/vendor/poyo.js"></script>
@@ -29,17 +29,8 @@
     </script>
   </head>
   <body>
-    <div id="wrap">
-      <h1><a href="https://thardus.xyz">Thardus</a></h1>
-      <nav>
-        <ul>
-          <li><a href="https://thardus.xyz">Home</a></li>
-          <li><a href="games">Games</a></li>
-          <li><a href="projects">Projects</a></li>
-          <li><a href="https://github.com/ecj2">GitHub</a></li>
-        </ul>
-      </nav>
-      <h2>Yukidaruma</h2>
+    <main>
+      <h1><a href="https://thardus.xyz">Thardus</a> &raquo; Yukidaruma</h1>
       A Bird &amp; Beans clone created for <a href="https://tins.amarillion.org/krampu20/rules/">KrampusHack 2020</a>.
 
       <div id="toggle">
@@ -52,14 +43,10 @@
         Your browser is too old to play this game!
       </canvas>
 
-      <div id="grid" style="display: none; width: 768px;">
-        <div style="flex: 1;">
-          <a href="javascript:document.getElementById('poyo').requestFullscreen()">Fullscreen</a>
-        </div>
-        <div style="flex: 2; text-align: right">
-          <a href="https://github.com/ecj2/yukidaruma">Source</a>
-        </div>
+      <div id="sections">
+        <div class="section"><a href="javascript:document.getElementById('poyo').requestFullscreen()">Fullscreen</a></div>
+        <div class="section"><a href="https://github.com/ecj2/yukidaruma">Source</a></div>
       </div>
-    </div>
+    </main>
   </body>
 </html>

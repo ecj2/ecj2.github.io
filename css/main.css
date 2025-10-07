@@ -1,74 +1,43 @@
-:root {
-
-  --link_color: #39f;
-}
-
 body {
 
-  background: #0e1318;
-  font-family: "Open Sans", sans-serif;
-  color: #e6edf3;
-  font-size: 18px;
-  line-height: 32px;
-  margin: 34px 0 0 0;
+  background: #f9f9f9;
+  font-family: "Nunito", sans-serif;
+  font-size: 20px;
+  color: #555;
+  line-height: 1.7;
+}
+
+main {
+
+  max-width: 800px;
+  margin: auto;
 }
 
 h1 {
 
-  font-size: 32px;
-  font-weight: normal;
-  border-bottom: 1px solid #9aa6b2;
-  margin: 0 0 32px 0;
-  padding-bottom: 34px;
+  font-size: 48px;
+  color: #333;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
-nav a, h1 a {
+h1 a {
 
   color: inherit;
   text-decoration: none;
 }
 
-nav a:hover, h1 a:hover {
+h1 a:hover {
 
-  color: var(--link_color);
+  color: #1a73e8;
   text-decoration: none;
-}
-
-nav {
-
-  float: right;
-  text-align: right;
-  margin-top: -99px;
-}
-
-nav ul {
-
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: inline;
-}
-
-nav ul li {
-
-  display: inline;
-  padding-left: 10px;
 }
 
 h2 {
 
-  font-size: 32px;
-  font-weight: normal;
-  margin: 0 0 34px 0;
-  padding: 2px 0 0 0;
-}
-
-#wrap {
-
-  width: 800px;
-  margin: auto auto 32px auto;
-  border-bottom: 1px solid #9aa6b2;
-  padding-bottom: 32px;
+  color: #444;
+  margin-top: 32px;
+  margin-bottom: 16px;
 }
 
 canvas {
@@ -77,18 +46,83 @@ canvas {
   margin-top: 32px;
 }
 
-textarea {
+#sections {
 
   display: none;
+  gap: 32px;
+  margin-top: 0;
+  flex-wrap: wrap;
+  width: 768px;
+}
+
+.section {
+
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.section:last-child {
+
+  text-align: right;
+}
+
+.entry {
+
+  display: block;
+  margin-bottom: 16px;
 }
 
 a {
 
-  color: var(--link_color);
+  color: #1a73e8;
   text-decoration: none;
 }
 
 a:hover {
 
   text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+
+  body {
+
+    font-size: 16px;
+  }
+
+  h1 {
+
+    font-size: 36px;
+  }
+
+  h2 {
+
+    font-size: 24px;
+  }
+
+  main {
+
+    padding: 0 16px;
+  }
+
+  canvas {
+
+    width: 90vw;
+  }
+
+  #sections {
+
+    width: 90vw;
+    gap: 0;
+  }
+
+  .section {
+
+    flex: 1 0;
+  }
+
+  .section:last-child {
+
+    text-align: left;
+  }
 }
