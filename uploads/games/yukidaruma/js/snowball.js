@@ -9,7 +9,7 @@ Snowball = new class {
 
     this.theta = 0.0;
 
-    this.show = false;
+    this.is_visible = false;
 
     this.speed = 8;
 
@@ -18,9 +18,9 @@ Snowball = new class {
 
   update() {
 
-    if (!this.show && Player.isSpawned() && !Player.isDefeated() && Poyo.isKeyPressed(Poyo.KEY_Z)) {
+    if (!this.is_visible && Player.isSpawned() && !Player.isDefeated() && Poyo.isKeyPressed(Poyo.KEY_Z)) {
 
-      this.show = true;
+      this.is_visible = true;
 
       this.facing_direction = Player.getFacingDirection();
 
@@ -43,10 +43,10 @@ Snowball = new class {
 
       let pan = (this.x / CANVAS_W - 0.5) * 2;
 
-      Poyo.playSample(sample_whoosh, master_gain, 1, pan, false, getReference(WHOOSH));
+      Poyo.playSample(sample_whoosh, master_gain, 1, pan, false);
     }
 
-    if (!this.show) {
+    if (!this.is_visible) {
 
       return;
     }
@@ -58,7 +58,7 @@ Snowball = new class {
     if (this.x < -TILE_SIZE || this.x > CANVAS_W || this.y < -TILE_SIZE) {
 
       // Hide snowball once it leaves the view.
-      this.show = false;
+      this.is_visible = false;
     }
 
     let i = 0;
@@ -77,9 +77,9 @@ Snowball = new class {
 
         let pan = (this.x / CANVAS_W - 0.5) * 2;
 
-        Poyo.playSample(sample_pop, master_gain, 1, pan, false, getReference(POP));
+        Poyo.playSample(sample_pop, master_gain, 1, pan, false);
 
-        this.show = false;
+        this.is_visible = false;
 
         break;
       }
@@ -88,7 +88,7 @@ Snowball = new class {
 
   render() {
 
-    if (!this.show) {
+    if (!this.is_visible) {
 
       return;
     }

@@ -11,7 +11,7 @@ class Heart {
 
     this.fall_speed = (global_speed > 6 ? 6 : global_speed);
 
-    if ((getRandomNumber() * 9 | 0) == 0) {
+    if ((getRandomNumber() * 9 | 0) === 0) {
 
       this.fall_speed += 2;
     }
@@ -20,20 +20,17 @@ class Heart {
 
     this.type = TYPE_NORMAL;
 
-    if (Hearts.length > 9 && (getRandomNumber() * 100 | 0) % 20 == 1 || (global_speed > 5 && (getRandomNumber() * 100 | 0) % 10 == 1)) {
+    if (Hearts.length > 9 && (getRandomNumber() * 100 | 0) % 20 === 1 || (global_speed > 5 && (getRandomNumber() * 100 | 0) % 10 === 1)) {
 
       let active_hearts = 0;
 
-      Hearts.forEach(
+      for (const Heart of Hearts) {
 
-        (Heart) => {
+        if (!Heart.isDestroyed()) {
 
-          if (!Heart.isDestroyed()) {
-
-            ++active_hearts;
-          }
+          ++active_hearts;
         }
-      );
+      }
 
       if (active_hearts > 2) {
 
@@ -47,7 +44,7 @@ class Heart {
 
     this.tint = Poyo.createColor(238, 47, 64);
 
-    if (((getRandomNumber() * 100) | 0) % 10 == 0) {
+    if (((getRandomNumber() * 100) | 0) % 10 === 0) {
 
       // Spawn some hearts with a green-ish tint.
       this.tint = Poyo.createColor(63, 216, 90);
@@ -58,6 +55,8 @@ class Heart {
     this.next = 0;
 
     this.scale = 1.0;
+
+    this.time_initialized = Poyo.getTime();
   }
 
   update() {
@@ -78,7 +77,7 @@ class Heart {
     }
 
     // Scale the heart as though it were pulsating.
-    this.scale = 1 + Math.cos(Poyo.getTime() * 3) / 5;
+    this.scale = 1 + Math.cos(this.time_initialized + Poyo.getTime() * 3) / 5;
 
     if (getDistance(this.x, this.y, Player.getX(), Player.getY()) < TILE_SIZE - (TILE_SIZE / 8)) {
 
@@ -90,32 +89,29 @@ class Heart {
       this.destroy();
     }
 
-    Platforms.forEach(
+    for (const Platform of Platforms) {
 
-      (Platform) => {
+      if ((Platform.isRespawning() || !Platform.isBroken()) && isColliding(this.x, this.y, Platform.getX(), Platform.getY())) {
 
-        if ((Platform.isRespawning() || !Platform.isBroken()) && isColliding(this.x, this.y, Platform.getX(), Platform.getY())) {
+        // Heart collided with platform.
 
-          // Heart collided with platform.
+        this.type = TYPE_NORMAL;
 
-          this.type = TYPE_NORMAL;
+        if (!Platform.isRespawning()) {
 
-          if (!Platform.isRespawning()) {
-
-            Platform.break();
-          }
-
-          this.destroy();
-
-          let pan = (this.x / CANVAS_W - 0.5) * 2;
-
-          Poyo.playSample(sample_pop, master_gain, 1, pan, false, getReference(POP));
+          Platform.break();
         }
+
+        this.destroy();
+
+        let pan = (this.x / CANVAS_W - 0.5) * 2;
+
+        Poyo.playSample(sample_pop, master_gain, 1, pan, false);
       }
-    );
+    }
 
     // Move the heart down the screen.
-    this.y += this.fall_speed / (this.type == TYPE_SPECIAL ? 2 : 1);
+    this.y += this.fall_speed / (this.type === TYPE_SPECIAL ? 2 : 1);
 
     if (this.y > CANVAS_H) {
 
@@ -134,7 +130,7 @@ class Heart {
       return;
     }
 
-    if (this.type == TYPE_SPECIAL) {
+    if (this.type === TYPE_SPECIAL) {
 
       --this.ticks;
 
@@ -162,6 +158,7 @@ class Heart {
 
       // Scale the heart as though it were pulsating.
       Poyo.translateTransform(transform, this.x + TILE_SIZE / 2, this.y + TILE_SIZE / 2);
+      Poyo.rotateTransform(transform, Math.sin(this.time_initialized + Poyo.getTime()) / 6) * 3;
       Poyo.scaleTransform(transform, this.scale, this.scale);
       Poyo.translateTransform(transform, -TILE_SIZE / 2, -TILE_SIZE / 2);
       Poyo.useTransform(transform);
@@ -194,7 +191,7 @@ class Heart {
 
     this.destroyed = true;
 
-    if (!this.used_ability && this.type == TYPE_SPECIAL) {
+    if (!this.used_ability && this.type === TYPE_SPECIAL) {
 
       // Player struck a special heart.
 
@@ -211,36 +208,30 @@ class Heart {
 
       let pan = (this.x / CANVAS_W - 0.5) * 2;
 
-      Poyo.playSample(sample_special, master_gain, 1, pan, false, getReference(SPECIAL));
+      Poyo.playSample(sample_special, master_gain, 1, pan, false);
 
-      Hearts.forEach(
+      for (const Heart of Hearts) {
 
-        (Heart) => {
+        if (!Heart.isDestroyed()) {
 
-          if (!Heart.isDestroyed()) {
+          // Convert to normal heart to prevent the ability from being used again.
+          Heart.type = TYPE_NORMAL;
 
-            // Convert to normal heart to prevent the ability from being used again.
-            Heart.type = TYPE_NORMAL;
-
-            Heart.destroy();
-            Heart.calculateScore();
-          }
+          Heart.destroy();
+          Heart.calculateScore();
         }
-      );
+      }
 
       hit_special = false;
 
-      Platforms.forEach(
+      for (const Platform of Platforms) {
 
-        (Platform) => {
+        if (!Platform.isRespawning() && Platform.isBroken()) {
 
-          if (!Platform.isRespawning() && Platform.isBroken()) {
-
-            // Repair broken platforms.
-            Platform.repair();
-          }
+          // Repair broken platforms.
+          Platform.repair();
         }
-      );
+      }
     }
   }
 
@@ -272,15 +263,15 @@ class Heart {
 
     let increase = 0;
 
-    if (height == 7 || height == 6) {
+    if (height === 7 || height === 6) {
 
       increase = 300;
     }
-    else if (height == 5) {
+    else if (height === 5) {
 
       increase = 100;
     }
-    else if (height == 4) {
+    else if (height === 4) {
 
       increase = 50;
     }

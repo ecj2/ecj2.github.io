@@ -4,14 +4,7 @@ async function main() {
 
   if (!Poyo.initialize(CANVAS_W, CANVAS_H)) {
 
-    Poyo.getErrors().forEach(
-
-      (error) => {
-
-        // Display initialization errors.
-        Poyo.displayError(error);
-      }
-    );
+    setStatus(Poyo.getLastError(), true);
   }
 
   await loadResources();
@@ -27,15 +20,15 @@ function setStatus(resource, is_error = false) {
 
   if (is_error) {
 
-    let message = "failed to load " + resource + "!";
+    let message = `${resource}!`;
 
-    status.innerHTML = "Error: " + message;
+    status.innerHTML = `Error: ${message}`;
 
     throw new Error(message);
   }
   else {
 
-    status.innerHTML = "Loading " + resource + "...";
+    status.innerHTML = `Loading ${resource}...`;
   }
 }
 
@@ -49,7 +42,7 @@ async function loadResources() {
 
   if (!bitmap_atlas) {
 
-    setStatus("atlas.png", true);
+    setStatus(Poyo.getLastError(), true);
   }
 
   setStatus("text.png");
@@ -58,7 +51,7 @@ async function loadResources() {
 
   if (!bitmap_text) {
 
-    setStatus("text.png", true);
+    setStatus(Poyo.getLastError(), true);
   }
 
   setStatus("background.png");
@@ -67,7 +60,7 @@ async function loadResources() {
 
   if (!bitmap_background) {
 
-    setStatus("background.png", true);
+    setStatus(Poyo.getLastError(), true);
   }
 
   setStatus("score.png");
@@ -76,7 +69,7 @@ async function loadResources() {
 
   if (!bitmap_score) {
 
-    setStatus("score.png", true);
+    setStatus(Poyo.getLastError(), true);
   }
 
   // Use linear texture filtering on lights (hopefully reduces some banding).
@@ -88,61 +81,61 @@ async function loadResources() {
 
   if (!bitmap_light) {
 
-    setStatus("light.png", true);
-  }
-
-  setStatus("pop.mp3");
-
-  sample_pop = await Poyo.loadSample(path + "mp3/pop.mp3");
-
-  if (!sample_pop) {
-
-    setStatus("pop.mp3", true);
-  }
-
-  setStatus("whoosh.mp3");
-
-  sample_whoosh = await Poyo.loadSample(path + "mp3/whoosh.mp3");
-
-  if (!sample_whoosh) {
-
-    setStatus("whoosh.mp3", true);
-  }
-
-  setStatus("slide.mp3");
-
-  sample_slide = await Poyo.loadSample(path + "mp3/slide.mp3");
-
-  if (!sample_slide) {
-
-    setStatus("slide.mp3", true);
-  }
-
-  setStatus("defeat.mp3");
-
-  sample_defeat = await Poyo.loadSample(path + "mp3/defeat.mp3");
-
-  if (!sample_defeat) {
-
-    setStatus("defeat.mp3", true);
-  }
-
-  setStatus("special.mp3");
-
-  sample_special = await Poyo.loadSample(path + "mp3/special.mp3");
-
-  if (!sample_special) {
-
-    setStatus("special.mp3", true);
+    setStatus(Poyo.getLastError(), true);
   }
 
   setStatus("background.mp3");
 
-  sample_background = await Poyo.loadSample(path + "mp3/background.mp3");
+  sample_background = await Poyo.loadSample(path + "mp3/background.mp3", 1);
 
   if (!sample_background) {
 
-    setStatus("background.mp3", true);
+    setStatus(Poyo.getLastError(), true);
+  }
+
+  setStatus("pop.mp3");
+
+  sample_pop = await Poyo.loadSample(path + "mp3/pop.mp3", 12);
+
+  if (!sample_pop) {
+
+    setStatus(Poyo.getLastError(), true);
+  }
+
+  setStatus("whoosh.mp3");
+
+  sample_whoosh = await Poyo.loadSample(path + "mp3/whoosh.mp3", 5);
+
+  if (!sample_whoosh) {
+
+    setStatus(Poyo.getLastError(), true);
+  }
+
+  setStatus("slide.mp3");
+
+  sample_slide = await Poyo.loadSample(path + "mp3/slide.mp3", 12);
+
+  if (!sample_slide) {
+
+    setStatus(Poyo.getLastError(), true);
+  }
+
+  setStatus("defeat.mp3");
+
+  sample_defeat = await Poyo.loadSample(path + "mp3/defeat.mp3", 1);
+
+  if (!sample_defeat) {
+
+    setStatus(Poyo.getLastError(), true);
+  }
+
+  setStatus("special.mp3");
+
+  sample_special = await Poyo.loadSample(path + "mp3/special.mp3", 1);
+
+  if (!sample_special) {
+
+    setStatus(Poyo.getLastError(), true);
   }
 
   // Hide the status text.
@@ -172,7 +165,7 @@ function update() {
     hue -= 3;
   }
 
-  Poyo.getCanvas().style.filter = "hue-rotate(" + hue + "deg)";
+  Poyo.getCanvas().style.filter = `hue-rotate(${hue}deg)`;
 
   if (Poyo.isKeyDown(Poyo.KEY_D) && Poyo.isKeyDown(Poyo.KEY_0)) {
 
@@ -265,24 +258,18 @@ function update() {
 
 function updatePlatforms() {
 
-  Platforms.forEach(
+  for (const Platform of Platforms) {
 
-    (Platform) => {
-
-      Platform.update();
-    }
-  );
+    Platform.update();
+  }
 }
 
 function updateHearts() {
 
-  Hearts.forEach(
+  for (const Heart of Hearts) {
 
-    (Heart) => {
-
-      Heart.update();
-    }
-  );
+    Heart.update();
+  }
 
   --heart_ticks;
 
@@ -303,7 +290,6 @@ function updateHearts() {
 
   if (!Player.isDefeated() && heart_ticks < 0) {
 
-    let i = 0;
     let number_to_spawn = 1;
 
     if (global_speed >= 7) {
@@ -317,7 +303,7 @@ function updateHearts() {
       number_to_spawn = 2;
     }
 
-    for (i; i < number_to_spawn; ++i) {
+    for (let i = 0; i < number_to_spawn; ++i) {
 
       heart_ticks = 30 - (Math.min(70, goals_met * 10) * 0.25);
 
@@ -343,7 +329,7 @@ function updateHearts() {
     }
 
     // Increase background music as the game progresses. Cap to 4x to appease Firefox.
-    Poyo.adjustSample(getReference(BACKGROUND), master_gain - 0.5, Math.min(4, music_speed), 0, true);
+    Poyo.adjustSample(0, master_gain - 0.5, Math.min(4, music_speed), 0, true);
   }
 }
 
@@ -431,26 +417,20 @@ function renderPlatforms() {
 
   Poyo.useInstancing(true);
 
-  Platforms.forEach(
+  for (const Platform of Platforms) {
 
-    (Platform) => {
-
-      Platform.render();
-    }
-  );
+    Platform.render();
+  }
 
   Poyo.useInstancing(false);
 }
 
 function renderHearts() {
 
-  Hearts.forEach(
+  for (const Heart of Hearts) {
 
-    (Heart) => {
-
-      Heart.render();
-    }
-  );
+    Heart.render();
+  }
 }
 
 function renderLights() {
@@ -464,24 +444,24 @@ function renderLights() {
 
   Poyo.useInstancing(true);
 
-  Hearts.forEach(
+  for (const Heart of Hearts) {
 
-    (Heart) => {
+    if (Heart.isDestroyed()) {
 
-      if (!Heart.isDestroyed()) {
-
-        let tint = Heart.getTint();
-
-        if (tint.b == 64 / 255) {
-
-          // Use pure red for non-green hearts.
-          tint = Poyo.createColor(255, 0, 0);
-        }
-
-        Poyo.drawScaledBitmap(bitmap_light, light_size / 2, light_size / 2, Heart.getScale(), Heart.getScale(), Heart.getX() + TILE_SIZE / 2, Heart.getY() + TILE_SIZE / 2, tint);
-      }
+      continue;
     }
-  );
+
+    let tint = Heart.getTint();
+
+    if (tint.b === 64 / 255) {
+
+      // Use pure red for non-green hearts.
+      tint = Poyo.createColor(255, 0, 0);
+    }
+
+    // Draw the light.
+    Poyo.drawScaledBitmap(bitmap_light, light_size / 2, light_size / 2, Heart.getScale(), Heart.getScale(), Heart.getX() + TILE_SIZE / 2, Heart.getY() + TILE_SIZE / 2, tint);
+  }
 
   Poyo.useInstancing(false);
 
@@ -517,12 +497,12 @@ function reset() {
   goals_met = 0;
 
   // Play background music.
-  Poyo.playSample(sample_background, master_gain - 0.5, 1, 0, true, getReference(BACKGROUND));
+  Poyo.playSample(sample_background, master_gain - 0.5, 1, 0, true);
 }
 
 function renderText() {
 
-  if (state == STATE_GAME && !transitioned_score && score_y < 0) {
+  if (state === STATE_GAME && !transitioned_score && score_y < 0) {
 
     score_y += 3;
 
@@ -590,7 +570,7 @@ function renderText() {
           break;
         }
 
-        tint.a = (Text.ticks_fade / 60);
+        tint.a = 255 * (Text.ticks_fade / 60);
 
         // Draw score increases.
         Poyo.drawClippedBitmap(bitmap_atlas, text_tile_x * TILE_SIZE, 2 * TILE_SIZE + TILE_SIZE * animation_frame, TILE_SIZE, TILE_SIZE, Text.x, Text.y, tint);
@@ -640,7 +620,7 @@ function renderText() {
     let x = CANVAS_W / 2 - bitmap_width / 2;
     let y = CANVAS_H / 2 - TILE_SIZE / 2;
 
-    if (state == STATE_INTRO && show_again_direction == 1) {
+    if (state === STATE_INTRO && show_again_direction === 1) {
 
       show_again_direction = -1;
     }
